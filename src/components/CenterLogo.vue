@@ -75,9 +75,9 @@ onMounted(() => {
         :src="GLOBAL_CONFIG.LOGO_URL || LocalLogo"
       />
       <div :class="['hello', { hello_bottom: touchable }]">
-        <div class="site-title">🧬 {{ $config.BLOG_NAME }}</div>
+        <div class="site-title">🌟 {{ $config.BLOG_NAME }}</div>
         <div class="site-subtitle">{{ $config.SITE_SUBTITLE || slogan }}</div>
-        <div class="hello_bottom_text">👇 向上滑动探索资源</div>
+        <div class="hello_bottom_text">👇 上滑解锁你的 BioAI 工具箱</div>
       </div>
     </div>
   </div>

@@ -167,7 +167,7 @@ onMounted(() => {
         >
           <div class="overview-section__header">
             <h3 class="overview-section__title">🔥 本周热榜</h3>
-            <p class="overview-section__tagline">先看看大家都在用什么</p>
+            <p class="overview-section__tagline">最近大家都在刷的神器在这</p>
           </div>
           <div class="overview-section__list">
             <WebsiteItem
@@ -184,7 +184,7 @@ onMounted(() => {
         >
           <div class="overview-section__header">
             <h3 class="overview-section__title">🆕 最新收录</h3>
-            <p class="overview-section__tagline">刚加进来的好东西，先试为敬</p>
+            <p class="overview-section__tagline">刚上架的新玩意，先到先用</p>
           </div>
           <div class="overview-section__list">
             <WebsiteItem
@@ -201,7 +201,9 @@ onMounted(() => {
         >
           <div class="overview-section__header">
             <h3 class="overview-section__title">📌 精选专题</h3>
-            <p class="overview-section__tagline">一键速览一个方向该看啥</p>
+            <p class="overview-section__tagline">
+              一个方向的必看清单，打包给你
+            </p>
           </div>
           <div class="overview-section__topics">
             <button
@@ -223,7 +225,7 @@ onMounted(() => {
             v-model="searchKeyword"
             type="search"
             class="filter-bar__input"
-            placeholder="在当前栏目内搜索：站点名 / 关键词 / 标签"
+            placeholder="当前栏目里搜：站点名 / 关键词 / 标签"
           />
           <button
             v-if="searchKeyword || activeTag"
@@ -265,9 +267,9 @@ onMounted(() => {
                 :item="website"
               />
             </template>
-            <div v-else>😥 暂时没有符合条件的站点，试试换个关键词 / 标签</div>
+            <div v-else>😥 这里暂时空空的，换个关键词 / 标签试试？</div>
           </template>
-          <div v-else>😥 这里什么都没有</div>
+          <div v-else>😥 这里还在施工中，欢迎来提资源</div>
         </TabPanel>
       </Tabs>
     </Drawer>
@@ -433,14 +435,18 @@ onMounted(() => {
       width: calc(100% - 1.2rem);
     }
     .tabs__content {
-      height: 60vh;
+      height: calc(var(--vh, 1vh) * 60);
 
       .tab-panel {
         display: grid;
-        grid-template-columns: repeat(2, 1fr);
+        grid-template-columns: 1fr;
         grid-template-rows: auto;
         grid-gap: var(--mini-gap);
         align-items: flex-start;
+
+        @media screen and (min-width: 480px) {
+          grid-template-columns: repeat(2, 1fr);
+        }
 
         @media screen and (min-width: 768px) {
           grid-template-columns: repeat(4, 1fr);
