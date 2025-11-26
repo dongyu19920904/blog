@@ -90,21 +90,28 @@ function onDrawerClick(e: Event) {
     transition: transform ease 0.5s;
     transform: translate(-50%, calc(100% + 0.5rem));
     z-index: 100;
-    background-color: rgba(255, 255, 255, 0.96);
     width: calc(100vw - 1rem);
+    max-height: calc(var(--vh, 1vh) * 90);
     box-sizing: border-box;
     border-radius: var(--regular-border-radius);
     display: flex;
     flex-direction: column;
     overflow: hidden;
     box-shadow: var(--regular-shadow);
-    backdrop-filter: blur(16px);
+    background: radial-gradient(
+      circle at top left,
+      rgba(255, 255, 255, 0.96),
+      rgba(255, 255, 255, 0.9)
+    );
+    border: 1px solid rgba(255, 255, 255, 0.35);
+    backdrop-filter: blur(18px);
 
     @media screen and (min-width: 768px) {
       max-width: 1200px;
       width: 90vw;
       bottom: 3rem;
       transform: translate(-50%, calc(100% + 3rem));
+      border-radius: 1.5rem;
     }
 
     &.is-opened {
@@ -121,6 +128,8 @@ function onDrawerClick(e: Event) {
 
   &__content {
     margin-bottom: var(--super-mini-gap);
+    flex: 1;
+    overflow-y: auto;
   }
 
   &__footer {

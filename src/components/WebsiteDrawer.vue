@@ -375,9 +375,14 @@ onMounted(() => {
 
     .website-drawer__filter {
       margin-bottom: var(--regular-gap);
+      padding: 0.6rem 0.75rem;
       display: flex;
       flex-direction: column;
       gap: 0.4rem;
+      border-radius: var(--regular-border-radius);
+      background: rgba(255, 255, 255, 0.85);
+      border: 1px solid rgba(148, 163, 184, 0.35);
+      backdrop-filter: blur(12px);
 
       .filter-bar {
         display: flex;
@@ -406,11 +411,14 @@ onMounted(() => {
 
       .filter-tags {
         display: flex;
-        flex-wrap: wrap;
+        flex-wrap: nowrap;
         gap: 0.35rem;
+        overflow-x: auto;
+        padding-bottom: 0.1rem;
       }
 
       .filter-tag {
+        white-space: nowrap;
         font-size: 0.75rem;
         padding: 0.15rem 0.5rem;
         border-radius: 999px;
