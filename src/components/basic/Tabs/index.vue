@@ -230,23 +230,28 @@ onUnmounted(() => {
       min-width: 2rem;
       cursor: pointer;
       flex-shrink: 0;
+      transition: color 0.2s ease;
 
       &::after {
         content: "";
         display: block;
-        height: 2px;
-        width: 1.5rem;
+        height: 3px;
+        width: 2rem;
         margin: var(--super-mini-gap) auto 0;
-        background-color: var(--regular-text-color);
+        background-color: var(--accent-color);
         transform: scaleX(0);
         transition: transform 0.2s ease;
         border-radius: var(--regular-border-radius);
       }
+      &:hover {
+        color: var(--accent-color);
+      }
       &.is-active {
-        color: var(--regular-text-color);
+        color: var(--accent-color);
         font-weight: bold;
         &::after {
           transform: scaleX(1);
+          box-shadow: 0 0.12rem 0.5rem rgba(168, 85, 247, 0.5);
         }
       }
     }

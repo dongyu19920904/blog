@@ -417,9 +417,14 @@ onMounted(() => {
         cursor: pointer;
 
         &.is-active {
-          background-color: #e0f2fe;
-          border-color: #38bdf8;
-          color: #0369a1;
+          background-image: linear-gradient(
+            135deg,
+            var(--accent-color),
+            #ec4899
+          );
+          border-color: transparent;
+          color: #ffffff;
+          box-shadow: 0 0.12rem 0.5rem rgba(168, 85, 247, 0.45);
         }
       }
     }
