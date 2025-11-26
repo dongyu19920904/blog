@@ -65,7 +65,7 @@ function onDrawerClick(e: Event) {
         <div class="drawer__footer">
           <sketch-outlined class="footer-icon" />
           <a href="https://github.com/EsunR/Blog-Index" target="_blank">
-            Driven by <b>EsunR/Blog-Index</b>
+            🧬 BioAI 导航 · Powered by <b>Blog-Index</b>
           </a>
         </div>
       </div>
@@ -90,13 +90,15 @@ function onDrawerClick(e: Event) {
     transition: transform ease 0.5s;
     transform: translate(-50%, calc(100% + 0.5rem));
     z-index: 100;
-    background-color: #f1f1f1;
+    background-color: rgba(255, 255, 255, 0.96);
     width: calc(100vw - 1rem);
     box-sizing: border-box;
     border-radius: var(--regular-border-radius);
     display: flex;
     flex-direction: column;
     overflow: hidden;
+    box-shadow: var(--regular-shadow);
+    backdrop-filter: blur(16px);
 
     @media screen and (min-width: 768px) {
       max-width: 1200px;

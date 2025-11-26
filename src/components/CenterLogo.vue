@@ -75,8 +75,9 @@ onMounted(() => {
         :src="GLOBAL_CONFIG.LOGO_URL || LocalLogo"
       />
       <div :class="['hello', { hello_bottom: touchable }]">
-        <div>{{ slogan }}</div>
-        <div class="hello_bottom_text">点击以访问 {{ $config.BLOG_NAME }}</div>
+        <div class="site-title">🧬 {{ $config.BLOG_NAME }}</div>
+        <div class="site-subtitle">{{ $config.SITE_SUBTITLE || slogan }}</div>
+        <div class="hello_bottom_text">👇 向上滑动探索资源</div>
       </div>
     </div>
   </div>
@@ -102,7 +103,7 @@ onMounted(() => {
     width: 100%;
     height: 100%;
     position: absolute;
-    background-color: #fda085;
+    background-color: var(--primary-color);
     overflow: hidden;
     transition: background-color 0.5s;
     border-radius: 100%;
@@ -138,11 +139,21 @@ onMounted(() => {
     .hello_bottom {
       opacity: 1;
       top: 3.5rem;
+      .site-title {
+        font-size: 1.8rem;
+        font-weight: 700;
+        margin-bottom: 0.3rem;
+      }
+      .site-subtitle {
+        font-size: 1rem;
+        opacity: 0.9;
+      }
       .hello_bottom_text {
         font-size: var(--regular-font-size);
         margin-top: 0.5rem;
         padding-top: 0.5rem;
-        border-top: 1px solid #fff;
+        border-top: 1px solid rgba(255, 255, 255, 0.3);
+        opacity: 0.8;
       }
     }
   }

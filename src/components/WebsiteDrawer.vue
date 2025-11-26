@@ -29,21 +29,83 @@ const { modelValue } = toRefs(props);
 const activeTabs = ref<TabPanelProps["name"]>(0);
 const websiteSorts = ref<WebsiteSort[]>([]);
 const websiteItems = ref<WebsiteItem[]>([]);
+const topics = ref<TopicItem[]>([]);
 const disableUserActionInput = ref(false);
+const searchKeyword = ref<string>("");
+const activeTag = ref<string | null>(null);
 
 const websiteConfig = computed<WebsiteConfig[]>(() => {
   if (isWebsiteSortsOld(websiteSorts.value, websiteItems.value)) {
-    return websiteSorts.value.map((sort) => {
+    return websiteSorts.value.map((sort: any) => {
       return {
         ...sort,
         sites:
-          websiteItems.value.filter((item) => item.sortId === sort.id) || [],
+          websiteItems.value.filter((item: any) => item.sortId === sort.id) ||
+          [],
       };
     });
   } else {
     return websiteSorts.value;
   }
 });
+
+const hotWebsites = computed<Omit<WebsiteItem, "sortId">[]>(() => {
+  const result: Omit<WebsiteItem, "sortId">[] = [];
+  websiteConfig.value.forEach((sort: any) => {
+    sort.sites?.forEach((site: any) => {
+      if (site.isHot) {
+        result.push(site);
+      }
+    });
+  });
+  return result.slice(0, 6);
+});
+
+const newWebsites = computed<Omit<WebsiteItem, "sortId">[]>(() => {
+  const result: Omit<WebsiteItem, "sortId">[] = [];
+  websiteConfig.value.forEach((sort: any) => {
+    sort.sites?.forEach((site: any) => {
+      if (site.isNew) {
+        result.push(site);
+      }
+    });
+  });
+  return result.slice(0, 6);
+});
+
+const activeTags = computed<string[]>(() => {
+  const currentIndex = Number(activeTabs.value);
+  const current = websiteConfig.value[currentIndex];
+  if (!current?.sites) return [];
+  const tagSet = new Set<string>();
+  current.sites.forEach((site: Omit<WebsiteItem, "sortId">) => {
+    site.tags?.forEach((tag: string) => tagSet.add(tag));
+  });
+  return Array.from(tagSet).slice(0, 10);
+});
+
+function filterSites(sites: Omit<WebsiteItem, "sortId">[] = []) {
+  const keyword = searchKeyword.value.trim().toLowerCase();
+  return sites.filter((site) => {
+    const matchKeyword =
+      !keyword ||
+      site.title.toLowerCase().includes(keyword) ||
+      (site.description ?? "").toLowerCase().includes(keyword) ||
+      (site.tags ?? []).some((tag) => tag.toLowerCase().includes(keyword));
+    const matchTag =
+      !activeTag.value || (site.tags ?? []).includes(activeTag.value);
+    return matchKeyword && matchTag;
+  });
+}
+
+function onTagClick(tag: string) {
+  activeTag.value = activeTag.value === tag ? null : tag;
+}
+
+function clearFilter() {
+  searchKeyword.value = "";
+  activeTag.value = null;
+}
 
 useMouseWheel({
   disable: disableUserActionInput,
@@ -66,11 +128,12 @@ function onDrawerHandlerClick() {
 function getWebsiteDrawerData() {
   websiteSorts.value = GLOBAL_CONFIG.WEBSITE_SORTS;
   websiteItems.value = GLOBAL_CONFIG.WEBSITE_ITEMS;
+  topics.value = GLOBAL_CONFIG.TOPICS || [];
 }
 
 watch(
   modelValue,
-  (newVal) => {
+  (newVal: boolean) => {
     disableUserActionInput.value = newVal;
   },
   { immediate: true }
@@ -88,8 +151,8 @@ onMounted(() => {
       <span class="drawer-handler__icon">
         <up-outlined />
       </span>
-      <span class="drawer-handler__text slide-up">Slide Up</span>
-      <span class="drawer-handler__text wheel-up">Wheel Up</span>
+      <span class="drawer-handler__text slide-up">👆 上滑探索</span>
+      <span class="drawer-handler__text wheel-up">🖱️ 滚轮向上</span>
     </div>
     <!-- Drawer -->
     <Drawer
@@ -97,6 +160,93 @@ onMounted(() => {
       class="website-drawer__drawer"
       @update:model-value="$emit('update:modelValue', $event)"
     >
+      <div class="website-drawer__overview">
+        <section
+          v-if="hotWebsites.length"
+          class="overview-section overview-section--hot"
+        >
+          <div class="overview-section__header">
+            <h3 class="overview-section__title">🔥 本周热榜</h3>
+            <p class="overview-section__tagline">先看看大家都在用什么</p>
+          </div>
+          <div class="overview-section__list">
+            <WebsiteItem
+              v-for="(website, index) in hotWebsites"
+              :key="`hot-${index}`"
+              :item="website"
+            />
+          </div>
+        </section>
+
+        <section
+          v-if="newWebsites.length"
+          class="overview-section overview-section--new"
+        >
+          <div class="overview-section__header">
+            <h3 class="overview-section__title">🆕 最新收录</h3>
+            <p class="overview-section__tagline">刚加进来的好东西，先试为敬</p>
+          </div>
+          <div class="overview-section__list">
+            <WebsiteItem
+              v-for="(website, index) in newWebsites"
+              :key="`new-${index}`"
+              :item="website"
+            />
+          </div>
+        </section>
+
+        <section
+          v-if="topics.length"
+          class="overview-section overview-section--topics"
+        >
+          <div class="overview-section__header">
+            <h3 class="overview-section__title">📌 精选专题</h3>
+            <p class="overview-section__tagline">一键速览一个方向该看啥</p>
+          </div>
+          <div class="overview-section__topics">
+            <button
+              v-for="(topic, index) in topics"
+              :key="`topic-${index}`"
+              type="button"
+              class="topic-chip"
+            >
+              <span class="topic-chip__emoji">{{ topic.emoji }}</span>
+              <span class="topic-chip__text">{{ topic.title }}</span>
+            </button>
+          </div>
+        </section>
+      </div>
+
+      <div class="website-drawer__filter">
+        <div class="filter-bar">
+          <input
+            v-model="searchKeyword"
+            type="search"
+            class="filter-bar__input"
+            placeholder="在当前栏目内搜索：站点名 / 关键词 / 标签"
+          />
+          <button
+            v-if="searchKeyword || activeTag"
+            type="button"
+            class="filter-bar__clear"
+            @click="clearFilter"
+          >
+            重置
+          </button>
+        </div>
+        <div v-if="activeTags.length" class="filter-tags">
+          <button
+            v-for="tag in activeTags"
+            :key="tag"
+            type="button"
+            :class="['filter-tag', { 'is-active': activeTag === tag }]"
+            @click="onTagClick(tag)"
+          >
+            #{{ tag }}
+          </button>
+        </div>
+      </div>
+
       <Tabs v-model="activeTabs">
         <TabPanel
           v-for="(config, index) in websiteConfig"
@@ -108,11 +258,14 @@ onMounted(() => {
           }"
         >
           <template v-if="config.sites?.length">
-            <WebsiteItem
-              v-for="(website, subIndex) in config.sites"
-              :key="subIndex"
-              :item="website"
-            />
+            <template v-if="filterSites(config.sites).length">
+              <WebsiteItem
+                v-for="(website, subIndex) in filterSites(config.sites)"
+                :key="subIndex"
+                :item="website"
+              />
+            </template>
+            <div v-else>😥 暂时没有符合条件的站点，试试换个关键词 / 标签</div>
           </template>
           <div v-else>😥 这里什么都没有</div>
         </TabPanel>
@@ -160,6 +313,117 @@ onMounted(() => {
 <style lang="scss">
 .website-drawer__drawer {
   .drawer__content {
+    .website-drawer__overview {
+      margin-bottom: var(--regular-gap);
+      display: flex;
+      flex-direction: column;
+      gap: var(--regular-gap);
+
+      .overview-section__header {
+        display: flex;
+        flex-direction: column;
+        gap: 0.1rem;
+        margin-bottom: 0.4rem;
+      }
+
+      .overview-section__title {
+        font-size: 1rem;
+        font-weight: 600;
+      }
+
+      .overview-section__tagline {
+        font-size: 0.8rem;
+        color: var(--secondary-text-color);
+      }
+
+      .overview-section__list {
+        display: flex;
+        gap: var(--mini-gap);
+        overflow-x: auto;
+        padding-bottom: 0.3rem;
+      }
+
+      .overview-section__list .website-item {
+        min-width: 12rem;
+      }
+
+      .overview-section__topics {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.4rem;
+      }
+
+      .topic-chip {
+        border: none;
+        outline: none;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.25rem;
+        padding: 0.25rem 0.6rem;
+        border-radius: 999px;
+        background-color: #f3f4f6;
+        font-size: 0.8rem;
+        cursor: pointer;
+      }
+
+      .topic-chip__emoji {
+        font-size: 0.9rem;
+      }
+    }
+
+    .website-drawer__filter {
+      margin-bottom: var(--regular-gap);
+      display: flex;
+      flex-direction: column;
+      gap: 0.4rem;
+
+      .filter-bar {
+        display: flex;
+        align-items: center;
+        gap: 0.4rem;
+
+        &__input {
+          flex: 1;
+          padding: 0.35rem 0.6rem;
+          border-radius: 999px;
+          border: 1px solid #e5e7eb;
+          font-size: 0.85rem;
+          outline: none;
+        }
+
+        &__clear {
+          border: none;
+          outline: none;
+          font-size: 0.8rem;
+          padding: 0.25rem 0.6rem;
+          border-radius: 999px;
+          background-color: #f3f4f6;
+          cursor: pointer;
+        }
+      }
+
+      .filter-tags {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.35rem;
+      }
+
+      .filter-tag {
+        font-size: 0.75rem;
+        padding: 0.15rem 0.5rem;
+        border-radius: 999px;
+        border: 1px solid #e5e7eb;
+        background-color: #ffffff;
+        cursor: pointer;
+
+        &.is-active {
+          background-color: #e0f2fe;
+          border-color: #38bdf8;
+          color: #0369a1;
+        }
+      }
+    }
+
     .tabs__header {
       width: calc(100% - 1.2rem);
     }
