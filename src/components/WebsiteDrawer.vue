@@ -160,26 +160,6 @@ onMounted(() => {
       class="website-drawer__drawer"
       @update:model-value="$emit('update:modelValue', $event)"
     >
-      <!-- 精选专题 -->
-      <div v-if="topics.length" class="website-drawer__topics">
-        <div class="topics-header">
-          <span class="topics-header__icon">📌</span>
-          <span class="topics-header__title">精选专题</span>
-          <span class="topics-header__divider"></span>
-        </div>
-        <div class="topics-list">
-          <button
-            v-for="(topic, index) in topics"
-            :key="`topic-${index}`"
-            type="button"
-            class="topic-chip"
-          >
-            <span class="topic-chip__emoji">{{ topic.emoji }}</span>
-            <span class="topic-chip__text">{{ topic.title }}</span>
-          </button>
-        </div>
-      </div>
-
       <div class="website-drawer__filter">
         <div class="filter-bar">
           <input
@@ -195,17 +175,6 @@ onMounted(() => {
             @click="clearFilter"
           >
             重置
-          </button>
-        </div>
-        <div v-if="activeTags.length" class="filter-tags">
-          <button
-            v-for="tag in activeTags"
-            :key="tag"
-            type="button"
-            :class="['filter-tag', { 'is-active': activeTag === tag }]"
-            @click="onTagClick(tag)"
-          >
-            #{{ tag }}
           </button>
         </div>
       </div>
