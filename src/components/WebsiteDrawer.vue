@@ -160,63 +160,24 @@ onMounted(() => {
       class="website-drawer__drawer"
       @update:model-value="$emit('update:modelValue', $event)"
     >
-      <div class="website-drawer__overview">
-        <section
-          v-if="hotWebsites.length"
-          class="overview-section overview-section--hot"
-        >
-          <div class="overview-section__header">
-            <h3 class="overview-section__title">🔥 本周热榜</h3>
-            <p class="overview-section__tagline">最近大家都在刷的神器在这</p>
-          </div>
-          <div class="overview-section__list">
-            <WebsiteItem
-              v-for="(website, index) in hotWebsites"
-              :key="`hot-${index}`"
-              :item="website"
-            />
-          </div>
-        </section>
-
-        <section
-          v-if="newWebsites.length"
-          class="overview-section overview-section--new"
-        >
-          <div class="overview-section__header">
-            <h3 class="overview-section__title">🆕 最新收录</h3>
-            <p class="overview-section__tagline">刚上架的新玩意，先到先用</p>
-          </div>
-          <div class="overview-section__list">
-            <WebsiteItem
-              v-for="(website, index) in newWebsites"
-              :key="`new-${index}`"
-              :item="website"
-            />
-          </div>
-        </section>
-
-        <section
-          v-if="topics.length"
-          class="overview-section overview-section--topics"
-        >
-          <div class="overview-section__header">
-            <h3 class="overview-section__title">📌 精选专题</h3>
-            <p class="overview-section__tagline">
-              一个方向的必看清单，打包给你
-            </p>
-          </div>
-          <div class="overview-section__topics">
-            <button
-              v-for="(topic, index) in topics"
-              :key="`topic-${index}`"
-              type="button"
-              class="topic-chip"
-            >
-              <span class="topic-chip__emoji">{{ topic.emoji }}</span>
-              <span class="topic-chip__text">{{ topic.title }}</span>
-            </button>
-          </div>
-        </section>
+      <!-- 精选专题 -->
+      <div v-if="topics.length" class="website-drawer__topics">
+        <div class="topics-header">
+          <span class="topics-header__icon">📌</span>
+          <span class="topics-header__title">精选专题</span>
+          <span class="topics-header__divider"></span>
+        </div>
+        <div class="topics-list">
+          <button
+            v-for="(topic, index) in topics"
+            :key="`topic-${index}`"
+            type="button"
+            class="topic-chip"
+          >
+            <span class="topic-chip__emoji">{{ topic.emoji }}</span>
+            <span class="topic-chip__text">{{ topic.title }}</span>
+          </button>
+        </div>
       </div>
 
       <div class="website-drawer__filter">
@@ -315,41 +276,43 @@ onMounted(() => {
 <style lang="scss">
 .website-drawer__drawer {
   .drawer__content {
-    .website-drawer__overview {
+    .website-drawer__topics {
       margin-bottom: var(--regular-gap);
-      display: flex;
-      flex-direction: column;
-      gap: var(--regular-gap);
+      padding: 0.5rem 0.75rem;
+      border-radius: var(--regular-border-radius);
+      background: rgba(255, 255, 255, 0.85);
+      border: 1px solid rgba(148, 163, 184, 0.35);
+      backdrop-filter: blur(12px);
 
-      .overview-section__header {
+      .topics-header {
         display: flex;
-        flex-direction: column;
-        gap: 0.1rem;
-        margin-bottom: 0.4rem;
+        align-items: center;
+        gap: 0.35rem;
+        margin-bottom: 0.5rem;
+
+        &__icon {
+          font-size: 0.9rem;
+        }
+
+        &__title {
+          font-size: 0.85rem;
+          font-weight: 600;
+          color: var(--regular-text-color);
+        }
+
+        &__divider {
+          flex: 1;
+          height: 1px;
+          background: linear-gradient(
+            to right,
+            rgba(148, 163, 184, 0.4),
+            transparent
+          );
+          margin-left: 0.5rem;
+        }
       }
 
-      .overview-section__title {
-        font-size: 1rem;
-        font-weight: 600;
-      }
-
-      .overview-section__tagline {
-        font-size: 0.8rem;
-        color: var(--secondary-text-color);
-      }
-
-      .overview-section__list {
-        display: flex;
-        gap: var(--mini-gap);
-        overflow-x: auto;
-        padding-bottom: 0.3rem;
-      }
-
-      .overview-section__list .website-item {
-        min-width: 12rem;
-      }
-
-      .overview-section__topics {
+      .topics-list {
         display: flex;
         flex-wrap: wrap;
         gap: 0.4rem;
@@ -361,15 +324,34 @@ onMounted(() => {
         display: inline-flex;
         align-items: center;
         gap: 0.25rem;
-        padding: 0.25rem 0.6rem;
+        padding: 0.3rem 0.65rem;
         border-radius: 999px;
-        background-color: #f3f4f6;
+        background: linear-gradient(
+          135deg,
+          rgba(168, 85, 247, 0.1),
+          rgba(236, 72, 153, 0.1)
+        );
+        border: 1px solid rgba(168, 85, 247, 0.25);
         font-size: 0.8rem;
         cursor: pointer;
+        transition: all 0.2s ease;
+
+        &:hover {
+          background: linear-gradient(
+            135deg,
+            rgba(168, 85, 247, 0.2),
+            rgba(236, 72, 153, 0.2)
+          );
+          border-color: rgba(168, 85, 247, 0.4);
+        }
       }
 
       .topic-chip__emoji {
         font-size: 0.9rem;
+      }
+
+      .topic-chip__text {
+        color: var(--regular-text-color);
       }
     }
 
