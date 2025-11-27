@@ -25,12 +25,6 @@ defineProps<{
       <div class="description">
         {{ item.description || `网站链接: ${item.url}` }}
       </div>
-      <!-- 标签展示 -->
-      <div v-if="item.tags?.length" class="tags">
-        <span v-for="tag in item.tags.slice(0, 3)" :key="tag" class="tag"
-          >#{{ tag }}</span
-        >
-      </div>
     </div>
     <div
       class="website-item__logo"
