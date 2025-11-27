@@ -9,7 +9,12 @@ defineProps<{
 </script>
 
 <template>
-  <a :href="item.url" target="_blank" class="website-item">
+  <a
+    :href="item.url"
+    target="_blank"
+    class="website-item"
+    :class="{ 'website-item--with-badge': item.isHot || item.isNew }"
+  >
     <!-- 热门/最新标签 -->
     <div v-if="item.isHot || item.isNew" class="website-item__badges">
       <span v-if="item.isHot" class="badge badge--hot">🔥 热门</span>
@@ -78,10 +83,14 @@ $text-line-height: 1.4rem;
     transform: scale(0.99);
   }
 
+  &--with-badge {
+    padding-top: 1.1rem;
+  }
+
   &__badges {
     position: absolute;
-    top: 0.25rem;
-    left: 0.25rem;
+    top: 0.35rem;
+    left: 0.5rem;
     display: flex;
     gap: 0.25rem;
     z-index: 1;
