@@ -6,6 +6,7 @@ import {
   nextTick,
   onMounted,
   onUnmounted,
+  provide,
   ref,
   toRefs,
   watch,
@@ -21,6 +22,9 @@ const props = defineProps<{
 }>();
 
 const { modelValue } = toRefs(props);
+
+// 提供当前选中的 tab name 给子组件
+provide("activeTabName", modelValue);
 
 const emits = defineEmits<{
   "update:modelValue": [value: TabPanelProps["name"]];
@@ -179,14 +183,7 @@ onUnmounted(() => {
         {{ item.label }}
       </div>
     </div>
-    <div
-      class="tabs__content"
-      :style="{
-        transform: `translateX(calc(-${
-          activeIndex * 100
-        }% - ${activeIndex}rem))`,
-      }"
-    >
+    <div class="tabs__content">
       <slot></slot>
     </div>
   </div>
@@ -258,10 +255,10 @@ onUnmounted(() => {
   }
 
   &__content {
-    display: flex;
-    transition: transform 0.4s ease;
+    display: block;
     border-radius: var(--regular-border-radius);
-    align-items: flex-start;
+    overflow-y: auto;
+    overflow-x: hidden;
   }
 }
 </style>

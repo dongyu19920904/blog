@@ -1,15 +1,21 @@
 <script lang="ts" setup>
+import { computed, inject, Ref } from "vue";
 import { TabPanelProps } from "./types";
 
 defineOptions({
   name: "TabPanel",
 });
 
-defineProps<TabPanelProps>();
+const props = defineProps<TabPanelProps>();
+
+// 从父组件 Tabs 注入当前选中的 tab name
+const activeTabName = inject<Ref<TabPanelProps["name"]>>("activeTabName");
+
+const isActive = computed(() => activeTabName?.value === props.name);
 </script>
 
 <template>
-  <div class="tab-panel">
+  <div v-show="isActive" class="tab-panel">
     <slot></slot>
   </div>
 </template>
@@ -19,7 +25,5 @@ defineProps<TabPanelProps>();
   width: 100%;
   max-height: 100%;
   overflow-y: auto;
-  flex-shrink: 0;
-  margin-right: var(--regular-gap);
 }
 </style>
