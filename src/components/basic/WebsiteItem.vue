@@ -84,7 +84,7 @@ $text-line-height: 1.4rem;
   }
 
   &--with-badge {
-    padding-top: 1.1rem;
+    padding-top: 1.35rem;
   }
 
   &__badges {
@@ -95,8 +95,8 @@ $text-line-height: 1.4rem;
     gap: 0.25rem;
     z-index: 1;
     .badge {
-      font-size: 0.65rem;
-      padding: 0.1rem 0.35rem;
+      font-size: 0.6rem;
+      padding: 0.08rem 0.32rem;
       border-radius: 0.25rem;
       font-weight: 500;
       &--hot {
