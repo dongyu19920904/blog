@@ -1,125 +1,191 @@
-# 1. 关于
+# 🧬 AI 生命科学导航站 | AI BioScience Navigator
 
-Blog-Index 通用网站导航
+![Vue3](https://img.shields.io/badge/Vue-3.x-42b883?logo=vue.js)
+![Vite](https://img.shields.io/badge/Vite-4.x-646cff?logo=vite)
+![Vercel](https://img.shields.io/badge/Deployed%20on-Vercel-000?logo=vercel)
+![License](https://img.shields.io/badge/License-MIT-blue)
 
-![](https://img.shields.io/badge/Base-Vue3-brightgreen.svg)
-![](https://img.shields.io/badge/Build-Vite-orange.svg)
-![](https://img.shields.io/badge/Installer-Yarn-blue.svg)
+🌐 **在线预览**：[nav.aibioo.cn](https://nav.aibioo.cn) | 📝 [更新日志](./CHANGELOG.md)
 
-[预览链接](https://www.esunr.site) | [友链交换区](https://github.com/EsunR/Blog-Index/issues/53) | [更新日志](./CHANGELOG.md)
+![预览图](./demo/show.png)
 
-![](./demo/show.png)
+> 🎯 一站式 AI 生命科学资源导航，汇集蛋白质预测、分子对接、单细胞分析、AI 制药等领域的 **100+ 优质工具与学习资源**。
 
-这是一个基于 Vue 的通用网站导航页面，你可以将其放在个人网站的首页作为您博客的引导页面或者是您其他项目的引导页。使用自适应布局兼容多端显示，方便游客浏览您的个人网站，背景图来自于 Bing 每日图片。
+---
 
-# 2. 使用方法
+## ✨ 项目特色
 
-## 2.1 自动部署
+- 🧬 **聚焦 AI + 生命科学** — 专注于 AI 在生物医药领域的应用
+- 📚 **100+ 精选资源** — 涵盖工具、数据库、教程、论文等
+- 🏷️ **标签分类系统** — 支持热门 🔥 / 最新 ✨ 标记，快速定位
+- 📱 **响应式设计** — 完美适配桌面端与移动端
+- ⚡ **Vite 极速构建** — 秒开体验，性能优异
+- 🎨 **Bing 每日壁纸** — 每天不一样的视觉享受
+
+---
+
+## 📂 导航分类一览
+
+| 分类 | 说明 |
+|------|------|
+| 🚀 入门上手 | ColabFold、AlphaFold 教程、生信课程 |
+| 🛠️ 工具与平台 | AlphaFold Server、ESMFold、DiffDock、scGPT |
+| 📊 数据库 | AlphaFold DB、UniProt、PDB、ChEMBL |
+| 📚 学习资源 | 在线课程、视频教程、书籍推荐 |
+| 🧪 AI 制药 | 药物发现、分子生成、ADMET 预测 |
+| 🧬 基因组学 | 基因预测、变异分析、功能注释 |
+| 🔬 单细胞分析 | scRNA-seq、空间转录组、细胞图谱 |
+| 📄 论文平台 | arXiv、bioRxiv、PubMed、知网 |
+| 💼 求职招聘 | 生信岗位、AI 制药公司、学术职位 |
+
+---
+
+## 🚀 快速开始
 
 ### 一键部署
 
-> 该方式无法保持更新，如果想要保持更新，请不要使用该方式，并参考下面的『保持更新』。
+点击按钮，一键部署到 Vercel：
 
-点击按钮一键部署到 Vercel：
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fdongyu19920904%2Fblog&repository-name=ai-bioscience-nav)
 
-[![](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2FEsunR%2FBlog-Index&repository-name=Blog-Index)
+### 保持更新（推荐）
 
-### 保持更新
+如果想持续同步上游更新，建议使用 Fork 方式：
 
-使用上面的一键部署后，Vercel 会默认为你创建一个新项目，而不是 fork 本项目，这会导致无法从 Github 上获取本项目的更新状态。你可以参考下面的教程手动 Fork 本项目，使用 Vercel 部署，并持续跟进本项目的更新。
-
-图文教程：[《使用 Vercel 全自动部署个人网站》](https://blog.esunr.site/2022/07/0cce6064286a.html)
+1. **Fork 本项目**：点击右上角 `Fork` 按钮
+2. **部署到 Vercel**：在 [Vercel](https://vercel.com) 导入你 Fork 的仓库
+3. **同步更新**：后续可通过 GitHub 同步上游更新
 
 ### 修改配置
 
-进入到刚才由 Vercel 创建或你自己手动 Fork 的本项目 Github 仓库，并找到 `/src/config.ts` 文件，点击『编辑』按钮修改文件中的内容：
-
-![](https://esunr-image-bed.oss-cn-beijing.aliyuncs.com/picgo/202311031523211.png)
-
-Website 抽屉配置：
+编辑 `/src/config.ts` 文件，自定义你的导航内容：
 
 ```ts
 const WEBSITE_SORTS: WebsiteSort[] = [
   {
-    title: "示例分类1",
+    title: "分类名称",
     sites: [
       {
-        /** 网站标题 */
-        title: "主标题",
-        /** 网站 url */
-        url: "http://www.your-web-page.com/",
-        /** 网站 icon 图标，非必填，留空默认展示网站标题的第一个字符 */
+        title: "网站标题",
+        description: "网站描述",
+        url: "https://example.com",
         icon: "",
-        /** 指定网站 icon 背景色 */
-        color: "#0171CD",
+        color: "#22C55E",
+        emoji: "🧬",
+        tags: ["标签1", "标签2"],
+        isHot: true,  // 热门标记
+        isNew: false, // 最新标记
       },
     ],
   },
-  // ... ...
 ];
 ```
 
-等待 Vercel 重新部署即可。
+提交更改后，Vercel 会自动重新部署。
 
-## 2.2 手动部署
+---
 
-### 拉取代码并安装依赖
+## 🛠️ 本地开发
 
-本地环境要求（可使用 volar 自动切换环境）：
+### 环境要求
 
-- node >= 18
-- yarn 1.22.19
+- Node.js >= 18
+- Yarn 1.22.19（可使用 [Volta](https://volta.sh/) 自动切换）
 
-拉取代码并安装依赖：
+### 安装与运行
 
-```sh
-git clone https://github.com/EsunR/Blog-Index.git
-cd ./Blog-Index
+```bash
+# 克隆项目
+git clone https://github.com/dongyu19920904/blog.git
+cd blog
+
+# 安装依赖
 yarn install
-```
 
-### 按需修改配置文件
+# 启动开发服务器
+yarn dev
 
-修改 src/config.ts 文件中的内容，同上。
-
-### 打包编译
-
-```sh
+# 构建生产版本
 yarn build
 ```
 
-将 dist 目录下的文件部署到服务器即可。
+---
 
-# 3. 开发
+## 🤖 AI 辅助开发记录
 
-本地环境要求（可使用 [volta](https://blog.esunr.site/2023/07/d99593770741.html) 自动切换环境）：
+本项目全程使用 AI 编程助手完成改造，以下是开发历程分享：
 
-- node >= 18
-- yarn 1.22.19
+### 开发工具链
 
-拉取代码并安装依赖：
+| 工具 | 用途 |
+|------|------|
+| **Windsurf / VS Code** | 代码编辑器 |
+| **Claude Opus 4.5** | 主力 AI 助手（效果最佳） |
+| **GPT-5.1** | 备用助手（无限使用） |
+| **GitHub Desktop** | 版本管理，一键同步 |
+| **Vercel** | 自动化部署 |
 
-```sh
-git clone https://github.com/EsunR/Blog-Index.git
-cd ./Blog-Index
-yarn install
+### 开发流程
+
+```
+Fork 原项目 → 一键部署 Vercel → GitHub Desktop 克隆
+    ↓
+Windsurf/VS Code + AI 助手改造代码
+    ↓
+GitHub Desktop 同步 → Vercel 自动更新
 ```
 
-启动开发模式：
+### AI 模型使用体验
 
-```sh
-yarn dev
-```
+| 模型 | 评分 | 体验 |
+|------|------|------|
+| Claude Opus 4.5 | ⭐⭐⭐⭐⭐ | 理解力强，代码质量高，Pro 试用额度有限 |
+| GPT-5.1 | ⭐⭐⭐⭐ | 稳定可靠，无限使用，性价比高 |
+| Gemini 3 | ⭐⭐⭐ | 官网体验好，与 Windsurf 兼容性一般 |
 
-# 4. 未来计划
+### 主要改动
 
-- [x] 使用 Vite + Vue3 + Typescript 搭建项目
-- [x] 优化代码结构，减轻包体积
-- [x] 重构已有功能
-  - [x] 重构首页组件
-  - [x] 重构抽屉组件
-- [x] 采用 SSG 构建静态页面
-- [ ] 优化配置文件，加入主题相关配置
-- [ ] 更好的 seo
-- [ ] 自动暗夜模式
-- [ ] 加入站点统计
+- ✅ 将通用导航改造为 **AI 生命科学** 专题
+- ✅ 新增 **9 大分类**、**100+ 精选资源**
+- ✅ 添加 **标签系统**、热门/最新标记
+- ✅ 修复错误链接、优化页面布局
+- ✅ 使用 GitHub Copilot 进行最终优化
+
+---
+
+## 🙏 致谢
+
+本项目基于 [EsunR/Blog-Index](https://github.com/EsunR/Blog-Index) 开发，感谢原作者的优秀开源项目！
+
+- 🔗 原项目：[https://github.com/EsunR/Blog-Index](https://github.com/EsunR/Blog-Index)
+- 🌐 原作者博客：[https://www.esunr.site](https://www.esunr.site)
+
+---
+
+## 🎁 AI 工具资源推荐
+
+> 如果你也在使用 AI 编程工具，这里有一些超值资源 👇
+
+🌐 **官网下单**：[aivora.cn](https://aivora.cn) · 24h 自助，卡密秒发 ⚡
+
+| 产品 | 特点 | 价格 |
+|------|------|------|
+| **Windsurf 激活器** | 无限续杯 Pro，全平台支持 | 3.9 元/天起 |
+| **Cursor Pro 换号器** | 7 天体验，支持 GPT-5.1/Claude | 8.9 元起 |
+| **Claude Code 中转** | 200K 上下文，Opus 4.1+ | 4.9 元/日卡起 |
+| **ChatGPT Business** | 稳定性超 Plus，支持 CodeX/Sora2 | 29.9 元/月 |
+| **Gemini Plus 年卡** | 官方会员 + 2T 云盘（官方 $200/年） | 99.9 元/年 |
+
+📱 更多详情请访问官网 [aivora.cn](https://aivora.cn)
+
+---
+
+## 📄 License
+
+[MIT License](./LICENSE) © 2024
+
+---
+
+<p align="center">
+  <b>⭐ 如果这个项目对你有帮助，欢迎 Star 支持！</b>
+</p>
